@@ -1,0 +1,5 @@
+{application, rebar_paths_plugin,
+ [
+  {description, "Rebar Code Path Configuration"},
+  {vsn, "0.0.1"}
+ ]}.

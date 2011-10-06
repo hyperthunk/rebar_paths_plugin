@@ -1,0 +1,12 @@
+{application, path_plugin_example,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { path_plugin_example_app, []}},
+  {env, []}
+ ]}.
