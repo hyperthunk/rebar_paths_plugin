@@ -40,7 +40,7 @@ preprocess(Config, _) ->
     {ok, []}.
 
 postprocess(_, _) ->
-    case rebar_config:get_global(original_code_path, undefined) of
+    case rebar_config:get_global(?CODE_PATH_KEY, undefined) of
         undefined -> ok;
         Path -> restore_code_path(Path)
     end,
