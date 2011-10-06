@@ -1,8 +1,7 @@
 # Rebar Paths Plugin
 
-This is an experimental plugin lets you modify the code path 
-(using `add_pathsa/1` and `add_pathsz`) for either all rebar commands, or for a 
-specific set of commands.
+This is an experimental plugin lets you modify the code path (using `add_pathsa/1`
+and `add_pathsz`), for a specific set of commands.
 
 ## Usage
 
@@ -37,4 +36,10 @@ Take a look in the examples directory to see the *xref* hook from above in actio
 ## Important notes
 
 This plugin is highly experimental and based on rebar features that have not made
-it into an official rebar branch (and may never do so).
+it into an official rebar branch (and may never do so). You can play with this 
+by looking at this rebar fork/branch:
+
+- https://github.com/hyperthunk/rebar/tree/plugins-rule
+
+which has merged rebar pull requests 129 and 143, which add features this plugin 
+requires in order to work.
