@@ -27,11 +27,17 @@
 -define(CODE_PATH_KEY, 'rebar_paths_plugin.original_code_path').
 
 preprocess(Config, _) ->
+    Command = rebar_utils:command_info(current),
+    Dir = rebar_utils:get_cwd(),
+    rebar_log:log(debug, "Pre-processing ~p in ~s!~n", [Command, Dir]),
     case rebar_config:get_local(Config, path_opts, []) of
         [] -> ok;
         Opts ->
-            case lists:keyfind(rebar_utils:command_info(current), 1, Opts) of
-                false -> ok;
+            rebar_log:log(debug, "Handling ~p~n", [Opts]),
+            case lists:keyfind(Command, 1, Opts) of
+                false -> 
+                    rebar_log:log(debug, "Skipping path config in ~s~n", [Dir]),
+                    ok;
                 {_, PathOptsForCmd} ->
                     rebar_config:set_global(?CODE_PATH_KEY, code:get_path()),
                     process_path(PathOptsForCmd)
@@ -40,6 +46,9 @@ preprocess(Config, _) ->
     {ok, []}.
 
 postprocess(_, _) ->
+    Command = rebar_utils:command_info(current),
+    Dir = rebar_utils:get_cwd(),
+    rebar_log:log(debug, "Post-processing ~p in ~s!~n", [Command, Dir]),
     case rebar_config:get_global(?CODE_PATH_KEY, undefined) of
         undefined -> ok;
         Path -> restore_code_path(Path)
