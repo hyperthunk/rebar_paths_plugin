@@ -38,12 +38,10 @@ preprocess(Config, _) ->
             case lists:keyfind(Command, 1, Opts) of
                 false ->
                     rebar_log:log(debug, "Skipping path config in ~s~n", [Dir]),
-                    rebar_config:set_global(?CODE_PATH_KEY, 
-                                            [no_change|PriorPaths]),
                     ok;
                 {_, PathOptsForCmd} ->
                     rebar_config:set_global(?CODE_PATH_KEY,
-                                            [code:get_path()|PriorPaths]),
+                                            [{Dir, code:get_path()}|PriorPaths]),
                     process_path(PathOptsForCmd)
             end
     end,
@@ -54,7 +52,7 @@ postprocess(_, _) ->
     Dir = rebar_utils:get_cwd(),
     rebar_log:log(debug, "Post-processing ~p in ~s!~n", [Command, Dir]),
     case rebar_config:get_global(?CODE_PATH_KEY, undefined) of
-        [Path|Paths] -> 
+        [{Dir, Path}|Paths] ->
             restore_code_path(Path),
             rebar_config:set_global(?CODE_PATH_KEY, Paths);
         _ ->
@@ -65,8 +63,7 @@ postprocess(_, _) ->
 restore_code_path(no_change) ->
     ok;
 restore_code_path(Path) ->
-    true = code:set_path([F || F <- Path, filelib:is_file(F)]),
-    rebar_config:set_global(?CODE_PATH_KEY, undefined).
+    true = code:set_path([F || F <- Path, filelib:is_file(F)]).
 
 process_path(Opts) ->
     [ process_path(Mode, Paths) || {Mode, Paths} <- Opts ].
