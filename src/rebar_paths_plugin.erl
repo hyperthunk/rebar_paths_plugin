@@ -54,10 +54,11 @@ postprocess(_, _) ->
     Dir = rebar_utils:get_cwd(),
     rebar_log:log(debug, "Post-processing ~p in ~s!~n", [Command, Dir]),
     case rebar_config:get_global(?CODE_PATH_KEY, undefined) of
-        undefined -> ok;
         [Path|Paths] -> 
             restore_code_path(Path),
-            rebar_config:set_global(?CODE_PATH_KEY, Paths)
+            rebar_config:set_global(?CODE_PATH_KEY, Paths);
+        _ ->
+            ok
     end,
     {ok, []}.
 
