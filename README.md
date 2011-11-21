@@ -32,6 +32,12 @@ Here's an example rebar config:
 ## Sample code
 
 Take a look in the examples directory to see the *xref* hook from above in action.
+You'll need to make sure you run rebar with `skip_deps=true` in order for *xref*
+to not fail on checking the various rebar plugins.
+
+    $ cd examples
+    $ rebar get-deps compile
+    $ rebar skip_deps=true xref
 
 ## Important notes
 
