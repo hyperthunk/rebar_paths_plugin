@@ -27,7 +27,7 @@
 -define(CODE_PATH_KEY, {?MODULE, original_code_path}).
 
 preprocess(Config, _) ->
-    Command = rebar_utils:command_info(current),
+    Command = rebar_plugin_manager:command_info(current),
     Dir = rebar_utils:get_cwd(),
     rebar_log:log(debug, "Pre-processing ~p in ~s!~n", [Command, Dir]),
     PriorPaths = rebar_config:get_global(?CODE_PATH_KEY, []),
@@ -48,7 +48,7 @@ preprocess(Config, _) ->
     {ok, []}.
 
 postprocess(_, _) ->
-    Command = rebar_utils:command_info(current),
+    Command = rebar_plugin_manager:command_info(current),
     Dir = rebar_utils:get_cwd(),
     rebar_log:log(debug, "Post-processing ~p in ~s!~n", [Command, Dir]),
     case rebar_config:get_global(?CODE_PATH_KEY, undefined) of
